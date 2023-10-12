@@ -14,26 +14,33 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
 class Player(GameSprite):
-    def update(self):
+    def update_l(self):
         keys = key.get_pressed()
-        if keys[K_LEFT] and self.rect.x > 5:
-            self.rect.x -= self.speed
-        if keys[K_RIGHT] and self.rect.x < win_width - 80:
-            self.rect.x += self.speed
-    def fire(self):
-        bullet=Bullet('bullet.png', self.rect.centerx , self.rect.top, 15, 20, -17)
-        bullets.add(bullet)
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < win_height - 80:
+            self.rect.y += self.speed
+    def update_r(self):
+        keys = key.get_pressed()
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < win_height - 80:
+            self.rect.y += self.speed
 
 back =(200,255,255)
 win_width = 700
 win_height = 500
 window = display.set_mode((700, 500))
 display.set_caption('Пинг-понг')
-ball = Player('ball.png', 5, win_height - 100, 80, 80, 10)
-
-game = True
+ball = Player('ball.png', 350, win_height - 550, 80, 80, 5)
+racket1 = Player('tennis.png', 600, win_height - 400, 80, 80, 10)
+racket2 = Player('tennis.png', 5, win_height - 100, 80, 80, 10)
+game = True  
+finish = False
 clock = time.Clock()
 FPS = 60
+speed_x = 3
+speed_y = 3
 
 while game:
     for e in event.get():
@@ -43,6 +50,14 @@ while game:
         window.fill(back)
         ball.update()
         ball.reset()
+        racket1.update_l()
+        racket2.update_r()
 
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+
+        racket1.reset()
+        racket2.reset()
+    
     display.update()
     clock.tick(FPS)
