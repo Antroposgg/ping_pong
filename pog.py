@@ -29,7 +29,7 @@ win_width = 700
 win_height = 500
 window = display.set_mode((700, 500))
 display.set_caption('Пинг-понг')
-window.fill(back)
+ball = Player('ball.png', 5, win_height - 100, 80, 80, 10)
 
 game = True
 clock = time.Clock()
@@ -39,3 +39,10 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             run = False
+    if finish != True:
+        window.fill(back)
+        ball.update()
+        ball.reset()
+
+    display.update()
+    clock.tick(FPS)
